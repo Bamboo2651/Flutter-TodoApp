@@ -39,6 +39,10 @@ class _TodoListPageState extends State<TodoListPage> {
     Todo(title: '読書', time: '21:00', content: '技術書を15ページ読む'),
   ];
 
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
