@@ -24,10 +24,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
 
-  final List<Todo> todos = const [
+  @override
+  State<TodoListPage> createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
+  List<Todo> todos = const [
     Todo(title: '課題', time: '10:00', content: 'Flutterのレイアウトを完成させる'),
     Todo(title: '買い物', time: '13:00', content: '駅前のスーパーで食材を買う'),
     Todo(title: '散歩', time: '16:00', content: '近所の公園を一周する'),
@@ -37,7 +42,7 @@ class TodoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // 背景を白にして清潔感を出す
+      backgroundColor: Colors.white,
       appBar: _buildCustomAppBar(),
       body: ListView(
         padding: const EdgeInsets.only(
@@ -114,15 +119,14 @@ class TodoListPage extends StatelessWidget {
         right: 0,
       ),
       elevation: 5,
-
       shape: RoundedRectangleBorder(
         side: const BorderSide(
           color: Color.fromARGB(255, 204, 123, 2),
           width: 1.5,
         ),
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(19), // 左上
-          bottomLeft: Radius.circular(25), // 左下
+          topLeft: Radius.circular(19),
+          bottomLeft: Radius.circular(25),
           topRight: Radius.circular(25),
           bottomRight: Radius.circular(19),
         ),
