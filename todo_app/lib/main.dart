@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Todo {
-  String title;
-  String time;
-  String content;
+  final String title;
+  final String time;
+  final String content;
 
-  Todo({required this.title, required this.time, required this.content});
+  const Todo({required this.title, required this.time, required this.content});
 }
 
 void main() {
@@ -45,13 +45,9 @@ class TodoListPage extends StatelessWidget {
           left: 25,
           right: 25,
         ),
-        children: [
-          // デザインを確認するためにいくつか並べてみる
-          _buildTodoItem('課題', '10:00', 'Flutterのレイアウトを完成させる'),
-          _buildTodoItem('買い物', '13:00', '駅前のスーパーで食材を買う'),
-          _buildTodoItem('散歩', '16:00', '近所の公園を一周する'),
-          _buildTodoItem('読書', '21:00', '技術書を15ページ読む'),
-        ],
+        children: todos.map((todo) {
+          return _buildTodoItem(todo.title, todo.time, todo.content);
+        }).toList(),
       ),
     );
   }
