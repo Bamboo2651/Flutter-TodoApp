@@ -50,9 +50,9 @@ class _TodoListPageState extends State<TodoListPage> {
       appBar: _buildCustomAppBar(),
       body: ListView(
         padding: const EdgeInsets.only(
-          top: 50,
-          left: 25,
-          right: 25,
+          top: 10,
+          left: 50,
+          right: 50,
         ),
         children: todos.map((todo) {
           return _buildTodoItem(todo.title, todo.time, todo.content);
@@ -178,7 +178,7 @@ class _TodoListPageState extends State<TodoListPage> {
     return Card(
       margin: const EdgeInsets.only(
         left: 0,
-        top: 50,
+        top: 10,
         bottom: 0,
         right: 0,
       ),
