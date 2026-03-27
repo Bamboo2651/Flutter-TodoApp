@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+class Todo {
+  String title;
+  String time;
+  String content;
+
+  Todo({required this.title, required this.time, required this.content});
+}
+
 void main() {
   runApp(const MyApp());
 }
@@ -94,7 +102,6 @@ class TodoListPage extends StatelessWidget {
     );
   }
 
-  // --- 今回作ったTodo1行分のパーツ ---
   Widget _buildTodoItem(String title, String time, String content) {
     return Card(
       margin: const EdgeInsets.only(
