@@ -27,6 +27,13 @@ class MyApp extends StatelessWidget {
 class TodoListPage extends StatelessWidget {
   const TodoListPage({super.key});
 
+  final List<Todo> todos = const [
+    Todo(title: '課題', time: '10:00', content: 'Flutterのレイアウトを完成させる'),
+    Todo(title: '買い物', time: '13:00', content: '駅前のスーパーで食材を買う'),
+    Todo(title: '散歩', time: '16:00', content: '近所の公園を一周する'),
+    Todo(title: '読書', time: '21:00', content: '技術書を15ページ読む'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
