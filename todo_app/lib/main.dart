@@ -135,6 +135,59 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
+  void _addTodo() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Todoを追加'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'タイトル'),
+              ),
+              TextField(
+                controller: _timeController,
+                decoration: const InputDecoration(labelText: '時間（例: 10:00）'),
+              ),
+              TextField(
+                controller: _contentController,
+                decoration: const InputDecoration(labelText: '内容'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('キャンセル'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  todos = [
+                    ...todos,
+                    Todo(
+                      title: _titleController.text,
+                      time: _timeController.text,
+                      content: _contentController.text,
+                    ),
+                  ];
+                });
+                _titleController.clear();
+                _timeController.clear();
+                _contentController.clear();
+                Navigator.pop(context);
+              },
+              child: const Text('追加'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildTodoItem(String title, String time, String content) {
     return Card(
       margin: const EdgeInsets.only(
