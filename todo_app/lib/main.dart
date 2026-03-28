@@ -55,7 +55,16 @@ class _TodoListPageState extends State<TodoListPage> {
           right: 50,
         ),
         children: todos.map((todo) {
-          return _buildTodoItem(todo.title, todo.time, todo.content);
+          return Dismissible(
+            key: Key(todo.title),
+            direction: DismissDirection.horizontal,
+            onDismissed: (direction) {
+              setState(() {
+                todos = todos.where((t) => t != todo).toList();
+              });
+            },
+            child: _buildTodoItem(todo.title, todo.time, todo.content),
+          );
         }).toList(),
       ),
 
