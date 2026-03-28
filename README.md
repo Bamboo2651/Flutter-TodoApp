@@ -8,6 +8,8 @@ Flutter入門後の最初の自作アプリ。学習記録として制作。
 
 - Todoの一覧表示
 - Todoの追加（タイトル・時間・内容）
+- Todoの削除（左スワイプ）
+- 完了チェック（タップで取り消し線）
 
 ---
 
@@ -57,11 +59,35 @@ setState(() {
 ### TextEditingController
 テキストフィールドの入力値を取得・クリアするための仕組みを学んだ。
 
+### Dismissible（スワイプ削除）
+`Dismissible` ウィジェットでカードを左スワイプしたときに削除する機能を実装した。`where()` を使って削除対象以外のTodoだけ残す方法を学んだ。
+
+```dart
+Dismissible(
+  key: Key(todo.title),
+  direction: DismissDirection.endToStart,
+  onDismissed: (direction) {
+    setState(() {
+      todos = todos.where((t) => t != todo).toList();
+    });
+  },
+  child: ...,
+)
+```
+
+### GestureDetector と三項演算子（完了チェック）
+`GestureDetector` でタップを検知し、`isDone` フラグを反転させることで完了状態を切り替えた。三項演算子でUIを動的に変える方法も学んだ。
+
+```dart
+// isDoneがtrueなら取り消し線、falseなら通常表示
+decoration: isDone ? TextDecoration.lineThrough : null,
+```
+
 ---
 
 ## 今後追加したい機能
 
-- [ ] Todoの削除
-- [ ] 完了チェック機能
+- [x] Todoの削除
+- [x] 完了チェック機能
 - [ ] データの永続化（端末を閉じても消えないように）
 - [ ] 日付・天気の動的取得
