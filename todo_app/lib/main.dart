@@ -4,8 +4,14 @@ class Todo {
   final String title;
   final String time;
   final String content;
+  final bool isDone;
 
-  const Todo({required this.title, required this.time, required this.content});
+  const Todo({
+    required this.title,
+    required this.time,
+    required this.content,
+    this.isDone = false,
+  });
 }
 
 void main() {
@@ -63,7 +69,29 @@ class _TodoListPageState extends State<TodoListPage> {
                 todos = todos.where((t) => t != todo).toList();
               });
             },
-            child: _buildTodoItem(todo.title, todo.time, todo.content),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  todos = todos.map((t) {
+                    if (t == todo) {
+                      return Todo(
+                        title: t.title,
+                        time: t.time,
+                        content: t.content,
+                        isDone: !t.isDone, // trueならfalse、falseならtrueに反転
+                      );
+                    }
+                    return t;
+                  }).toList();
+                });
+              },
+              child: _buildTodoItem(
+                todo.title,
+                todo.time,
+                todo.content,
+                todo.isDone,
+              ),
+            ),
           );
         }).toList(),
       ),
@@ -183,7 +211,12 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  Widget _buildTodoItem(String title, String time, String content) {
+  Widget _buildTodoItem(
+    String title,
+    String time,
+    String content,
+    bool isDone,
+  ) {
     return Card(
       margin: const EdgeInsets.only(
         left: 0,
@@ -228,7 +261,15 @@ class _TodoListPageState extends State<TodoListPage> {
                 ),
               ),
             ),
-            Expanded(child: Text(content)),
+            Expanded(
+              child: Text(
+                content,
+                style: TextStyle(
+                  decoration: isDone ? TextDecoration.lineThrough : null,
+                  color: isDone ? Colors.grey : Colors.black,
+                ),
+              ),
+            ),
           ],
         ),
       ),
