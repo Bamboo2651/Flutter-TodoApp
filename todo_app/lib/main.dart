@@ -24,9 +24,9 @@ class Todo {
     };
   }
 
-  factory Todo.formJson(Map<String, dynamic> json) {
+  factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-      title: json['titile'],
+      title: json['title'],
       time: json['time'],
       content: json['content'],
       isDone: json['isDone'] ?? false,
@@ -61,10 +61,11 @@ class _TodoListPageState extends State<TodoListPage> {
   Future<void> _loadTodos() async {
     final prefs = await SharedPreferences.getInstance();
     final String? jsonString = prefs.getString('todos');
+    print('読み込んだjson : $jsonString');
     if (jsonString != null) {
       final List<dynamic> jsonList = jsonDecode(jsonString);
       setState(() {
-        todos = jsonList.map((j) => Todo.formJson(j)).toList();
+        todos = jsonList.map((j) => Todo.fromJson(j)).toList();
       });
     }
   }
@@ -72,15 +73,21 @@ class _TodoListPageState extends State<TodoListPage> {
   Future<void> _saveTodos() async {
     final prefs = await SharedPreferences.getInstance();
     final String jsonString = jsonEncode(todos.map((t) => t.toJson()).toList());
+    print('保存するjsonString: $jsonString');
     await prefs.setString('todos', jsonString);
   }
 
   List<Todo> todos = const [
-    Todo(title: '課題', time: '10:00', content: 'Flutterのレイアウトを完成させる'),
-    Todo(title: '買い物', time: '13:00', content: '駅前のスーパーで食材を買う'),
-    Todo(title: '散歩', time: '16:00', content: '近所の公園を一周する'),
-    Todo(title: '読書', time: '21:00', content: '技術書を15ページ読む'),
+    // Todo(title: '課題', time: '10:00', content: 'Flutterのレイアウトを完成させる'),
+    // Todo(title: '買い物', time: '13:00', content: '駅前のスーパーで食材を買う'),
+    // Todo(title: '散歩', time: '16:00', content: '近所の公園を一周する'),
+    // Todo(title: '読書', time: '21:00', content: '技術書を15ページ読む'),
   ];
+  @override
+  void initState() {
+    super.initState();
+    _loadTodos();
+  }
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -105,6 +112,7 @@ class _TodoListPageState extends State<TodoListPage> {
               setState(() {
                 todos = todos.where((t) => t != todo).toList();
               });
+              _saveTodos();
             },
             child: GestureDetector(
               onTap: () {
@@ -121,6 +129,7 @@ class _TodoListPageState extends State<TodoListPage> {
                     return t;
                   }).toList();
                 });
+                _saveTodos();
               },
               child: _buildTodoItem(
                 todo.title,
@@ -235,6 +244,7 @@ class _TodoListPageState extends State<TodoListPage> {
                     ),
                   ];
                 });
+                _saveTodos();
                 _titleController.clear();
                 _timeController.clear();
                 _contentController.clear();
