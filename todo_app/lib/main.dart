@@ -167,23 +167,26 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   Widget _buildDateSection() {
+    final now = DateTime.now();
+    const weekdays = ['月', '火', '水', '木', '金', '土', '日'];
+    final weekday = weekdays[now.weekday - 1];
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          '2026年',
+          '${now.year}年',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
             color: Color.fromARGB(255, 0, 145, 218),
           ),
         ),
         Text(
-          '3月26日(木)',
+          '${now.month}月${now.day}日($weekday)',
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
             color: Color.fromARGB(255, 0, 145, 218),
           ),
         ),
