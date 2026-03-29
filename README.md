@@ -1,7 +1,8 @@
 # Flutter Todo App
 
 Flutter入門後の最初の自作アプリ。学習記録として制作。
-
+![alt text](Screenshot_2026-03-29-14-20-47-154_com.example.todo_app.jpg)
+![alt text](Screenshot_2026-03-29-14-20-49-420_com.example.todo_app.jpg)
 ---
 
 ## 機能
