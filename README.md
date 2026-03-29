@@ -10,6 +10,8 @@ Flutter入門後の最初の自作アプリ。学習記録として制作。
 - Todoの追加（タイトル・時間・内容）
 - Todoの削除（左スワイプ）
 - 完了チェック（タップで取り消し線）
+- データの永続化（アプリを閉じても保存）
+- 今日の日付を動的に表示
 
 ---
 
@@ -17,6 +19,7 @@ Flutter入門後の最初の自作アプリ。学習記録として制作。
 
 - Flutter / Dart
 - StatefulWidget + setState による状態管理
+- shared_preferences によるローカル保存
 
 ---
 
@@ -83,11 +86,48 @@ Dismissible(
 decoration: isDone ? TextDecoration.lineThrough : null,
 ```
 
+### shared_preferences（データの永続化）
+`shared_preferences` パッケージを使ってデータをローカルに保存する方法を学んだ。`toJson()` / `fromJson()` でTodoオブジェクトをJSON文字列に変換して保存・復元する仕組みを実装した。また `initState` で起動時に読み込む方法も学んだ。
+
+```dart
+// 保存
+Future<void> _saveTodos() async {
+  final prefs = await SharedPreferences.getInstance();
+  final String jsonString = jsonEncode(todos.map((t) => t.toJson()).toList());
+  await prefs.setString('todos', jsonString);
+}
+
+// 読み込み
+Future<void> _loadTodos() async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? jsonString = prefs.getString('todos');
+  if (jsonString != null) {
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+    setState(() {
+      todos = jsonList.map((j) => Todo.fromJson(j)).toList();
+    });
+  }
+}
+```
+
+### DateTime（日付の動的取得）
+`DateTime.now()` で端末の現在日時を取得し、文字列補間で表示する方法を学んだ。
+
+```dart
+final now = DateTime.now();
+const weekdays = ['月', '火', '水', '木', '金', '土', '日'];
+final weekday = weekdays[now.weekday - 1];
+
+Text('${now.month}月${now.day}日($weekday)');
+```
+
 ---
 
 ## 今後追加したい機能
 
 - [x] Todoの削除
 - [x] 完了チェック機能
-- [ ] データの永続化（端末を閉じても消えないように）
-- [ ] 日付・天気の動的取得
+- [x] データの永続化（端末を閉じても消えないように）
+- [x] 日付の動的取得
+- [ ] 天気の動的取得
+- [ ] 通知機能
