@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Todo {
   final String title;
@@ -56,6 +58,23 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  Future<void> _loadTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? jsonString = prefs.getString('todos');
+    if (jsonString != null) {
+      final List<dynamic> jsonList = jsonDecode(jsonString);
+      setState(() {
+        todos = jsonList.map((j) => Todo.formJson(j)).toList();
+      });
+    }
+  }
+
+  Future<void> _saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String jsonString = jsonEncode(todos.map((t) => t.toJson()).toList());
+    await prefs.setString('todos', jsonString);
+  }
+
   List<Todo> todos = const [
     Todo(title: '課題', time: '10:00', content: 'Flutterのレイアウトを完成させる'),
     Todo(title: '買い物', time: '13:00', content: '駅前のスーパーで食材を買う'),
