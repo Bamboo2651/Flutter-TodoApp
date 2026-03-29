@@ -12,6 +12,24 @@ class Todo {
     required this.content,
     this.isDone = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'time': time,
+      'content': content,
+      'isDone': isDone,
+    };
+  }
+
+  factory Todo.formJson(Map<String, dynamic> json) {
+    return Todo(
+      title: json['titile'],
+      time: json['time'],
+      content: json['content'],
+      isDone: json['isDone'] ?? false,
+    );
+  }
 }
 
 void main() {
